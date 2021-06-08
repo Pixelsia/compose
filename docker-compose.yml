@@ -1,0 +1,29 @@
+version: "3.7"
+
+x-app: &app
+    restart: always
+    working_dir: /app
+    tty: true
+    stdin_open: true
+    environment:
+        TZ: Asia/Tokyo
+    stop_signal: SIGINT
+services: 
+    bungee_main:
+        <<: *app
+        image: openjdk:16
+        ports: 
+            - 25570:25577
+        volumes:
+            - /srv/bungee_main:/app
+        command: java -jar server.jar
+        links:
+            - lobby:lobby
+    lobby:
+        <<: *app
+        image: openjdk:16
+        ports:
+            - 25571:25565
+        volumes:
+            - /srv/lobby:/app
+        command: java -jar server.jar
