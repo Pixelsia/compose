@@ -18,12 +18,17 @@ services:
             - /srv/bungee_main:/app
         command: java -jar server.jar
         links:
+            - pitsrv:pitsrv
             - lobby:lobby
     lobby:
         <<: *app
         image: openjdk:16
-        ports:
-            - 25571:25565
         volumes:
             - /srv/lobby:/app
         command: java -jar server.jar
+     pitsrv:
+         <<: *app
+         image: openjdk:16
+         volumes:
+            - /srv/pit:/app
+         command: java -jar server.jar
